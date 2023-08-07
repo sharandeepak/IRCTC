@@ -7,7 +7,7 @@ export const enum coachTypeEnum {
     GENERAL = 'GENERAL'
 }
 
-export const enum trainTripStatus {
+export const enum trainTripStatusEnum {
     SCHEDULED = 'SCHEDULED',
     ON_TIME = 'ON_TIME',
     DELAYED = 'DELAYED',

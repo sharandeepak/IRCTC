@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Patch, Post, Put, Query } from "@nestjs/common";
 import { UserDTO } from "./dto/user.dto";
 import { UsersService } from "./user.service";
 import { UserSchema } from "./schema/user.schema";
@@ -12,8 +12,8 @@ export class UserController {
         try {
             let userSchema : UserSchema = await this.userService.create(userDto);
             return userSchema;
-        } catch(error) {
-            console.error(error.message);                 
+        } catch(e) {
+            console.error(e);                 
         }
     }
 
@@ -37,10 +37,20 @@ export class UserController {
         }
     }
 
-    @Patch("/changepwd")
-    async updatePassword(@Query("id") id: number, @Query("pwd") pwd: string): Promise<UserSchema> {
+    @Put(":id")
+    async update(@Param("id") id, @Body() dto: UserDTO): Promise<UserSchema> {
         try {
-            let userSchema : UserSchema = await this.userService.updatePassword(id, pwd);
+            let userSchema : UserSchema = await this.userService.update(id, dto);
+            return userSchema;
+        } catch(error) {
+            console.error('An error occurred:', error);
+        }
+    }
+
+    @Patch(":id")
+    async partialUpdate(@Param("id") id, @Body() dto: UserDTO): Promise<UserSchema> {
+        try {
+            let userSchema : UserSchema = await this.userService.partialUpdate(id, dto);
             return userSchema;
         } catch(error) {
             console.error('An error occurred:', error);
@@ -50,7 +60,7 @@ export class UserController {
     @Delete(":id")
     async deleteUser(@Param('id') id: number): Promise<void> {
         try {
-            await this.userService.deleteUser(id);
+            // await this.userService.delete(id);
         } catch(error) {
             console.error('An error occurred:', error);
         }

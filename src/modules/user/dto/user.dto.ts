@@ -1,6 +1,8 @@
 import {
   IsBoolean,
   IsNotEmpty,
+  IsNumber,
+  IsOptional,
   IsString,
 } from '@nestjs/class-validator';
 

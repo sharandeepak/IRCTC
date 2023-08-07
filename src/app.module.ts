@@ -11,14 +11,16 @@ import { JourneyModule } from './modules/journey/journey.module';
 import { JourneyStopService } from './modules/journey_stop/journey_stop.service';
 import { JourneyStopModule } from './modules/journey_stop/journey_stop.module';
 import { PaymentModule } from './modules/payment/payment.module';
+import { JourneyStoptsNodeService } from './users/sharandeepak/desktop/survey-sparrow/training-project/ticket_wise/src/modules/train/repository/train.repository.ts/modules/journey_stopts-node/journey_stopts-node.service';
 
 @Module({
   controllers: [],
-  providers: [],
+  providers: [JourneyStoptsNodeService],
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
     DatabaseModule,
-    UsersModule
+    UsersModule,
+    TrainModule
   ],
 })
 // BookingsModule,

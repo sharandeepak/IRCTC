@@ -1,4 +1,4 @@
-import { Column, DataType, Index, Model, Table } from "sequelize-typescript";
+import { Column, DataType, Model, Table } from "sequelize-typescript";
 
 @Table({
     tableName: 'user',
@@ -7,7 +7,7 @@ import { Column, DataType, Index, Model, Table } from "sequelize-typescript";
     timestamps: true,
     indexes: [{fields: ['id','is_admin'], unique: true, where:{deleted_at: null}}]
 })
-export class UserModel extends Model<UserModel> {
+export class UserModel extends Model {
     @Column({
         type: DataType.INTEGER,
         primaryKey: true,
