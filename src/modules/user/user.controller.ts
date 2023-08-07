@@ -38,7 +38,7 @@ export class UserController {
     }
 
     @Put(":id")
-    async update(@Param("id") id, @Body() dto: UserDTO): Promise<UserSchema> {
+    async update(@Param("id") id: number, @Body() dto: UserDTO): Promise<UserSchema> {
         try {
             let userSchema : UserSchema = await this.userService.update(id, dto);
             return userSchema;
@@ -48,7 +48,7 @@ export class UserController {
     }
 
     @Patch(":id")
-    async partialUpdate(@Param("id") id, @Body() dto: UserDTO): Promise<UserSchema> {
+    async partialUpdate(@Param("id") id: number, @Body() dto: UserDTO): Promise<UserSchema> {
         try {
             let userSchema : UserSchema = await this.userService.partialUpdate(id, dto);
             return userSchema;
@@ -60,7 +60,7 @@ export class UserController {
     @Delete(":id")
     async deleteUser(@Param('id') id: number): Promise<void> {
         try {
-            // await this.userService.delete(id);
+            await this.userService.delete(id);
         } catch(error) {
             console.error('An error occurred:', error);
         }

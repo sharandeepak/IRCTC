@@ -21,7 +21,7 @@ export class UsersService extends BaseService<UserDTO, UserSchema, UserModel, Us
         }
     }
     
-    convertUserModelToSchema(userModel: UserModel) {
+    convertUserModelToSchema(userModel: UserModel): UserSchema {
         let userSchema : UserSchema = plainToInstance(UserSchema, userModel.toJSON() as UserSchema);
         return userSchema;
     }

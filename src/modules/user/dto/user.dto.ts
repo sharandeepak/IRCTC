@@ -8,22 +8,22 @@ import {
 
 export class UserDTO {
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   fullName: string;
 
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   userName: string;
 
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   password: string;
 
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   mobile: string;
 
   @IsBoolean()
-  @IsNotEmpty()
+  @IsOptional()
   isAdmin: boolean;
 }

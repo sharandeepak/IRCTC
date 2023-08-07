@@ -60,5 +60,5 @@ export abstract class BaseService <D, S, M, R extends BaseRepositoryInterface<D,
         }
     }
     
-    abstract convertUserModelToSchema(model: M);
+    abstract convertUserModelToSchema(model: M): S;
 }

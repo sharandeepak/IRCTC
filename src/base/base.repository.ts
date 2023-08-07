@@ -1,17 +1,12 @@
-import { Inject } from "@nestjs/common";
 import { Model } from "sequelize";
-import { Database } from "sqlite3";
-import { SEQUELIZE } from "src/core/constants";
 
 export class BaseRepository<D, M extends Model> {
-    database: any
-    constructor(database){
-        this.database = database
-    };
+    constructor(private readonly database, private readonly modelName) {
+    }
 
     async create(dto: D): Promise<M> {
         try {
-            let model = await this.database.M.create(dto);
+            let model = await this.database[this.modelName].create(dto);
             return model;
         } catch(e) {
             console.log(e);
@@ -21,7 +16,7 @@ export class BaseRepository<D, M extends Model> {
 
     async findById(id: number): Promise<M> {
         try {
-            let model = await this.database.M.findByPk(id);
+            let model = await this.database[this.modelName].findByPk(id);
             return model;
         } catch(e) {
             throw new Error(e.toString());
@@ -30,39 +25,46 @@ export class BaseRepository<D, M extends Model> {
 
     async findAll(): Promise<M[]> {
         try {
-            let modelArr : M[] = await this.database.M.findAll();
+            let modelArr : M[] = await this.database[this.modelName].findAll();
             return modelArr;
         } catch(e) {
             throw new Error(e.toString());
         }
     }
 
-    //Gotta write update in respective repository
-    async update(id: number, dto: D): Promise<any> {
+    async update(id: number, dto: D): Promise<M> {
         try {
-            // let model: M = await this.findById(dto.id);
-            // if(model) {
-            //     model.mobile = dto.mobile;
-            //     model.fullName = dto.fullName;
-            //     model.isAdmin = dto.isAdmin;
-            //     model.password = dto.password;
-            //     let updatedModel = await model.save();
-            //     return updatedModel;
-            // } else {
-            //     throw new Error('User Not Found');
-            // }
-            // return model;
-            await this.database.M.update({
-                dto
-            },{
-               where: {
-                id: id
-               }
-            })
+            const [affectedRows, [updatedModel]] = await this.database[this.modelName].update(
+            dto,
+            {
+                where: {
+                    id: id
+                },
+                returning: true}
+            )
+            return updatedModel;
         } catch(e) {
             throw new Error(e.toString());
         }
     }
+
+    async partialUpdate(id: number, dto: D): Promise<M> {
+        try {
+            console.log(dto);
+            const [affectedRows, [updatedModel]] = await this.database[this.modelName].update(
+            dto,
+            {
+               where: {
+                id: id
+               },
+               returning: true
+            })
+            return updatedModel;
+        } catch(e) {
+            throw new Error(e.toString());
+        }
+    }
+
 
     async delete(id: number): Promise<void> {
         try{

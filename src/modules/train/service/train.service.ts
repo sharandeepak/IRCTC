@@ -51,7 +51,7 @@ export class TrainService {
         }
     }
 
-    convertModelToSchema(trainModel: TrainModel) {
+    convertModelToSchema(trainModel: TrainModel): TrainSchema {
         let trainSchema : TrainSchema = plainToInstance(TrainSchema, trainModel.toJSON() as TrainSchema);
         return trainSchema;
     }
