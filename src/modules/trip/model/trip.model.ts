@@ -1,20 +1,20 @@
-import { Column, DataType, ForeignKey, HasMany, Model, Table } from "sequelize-typescript";
-import { TrainModel } from "src/modules/train/model/train.model";
+import { Column, DataType, HasMany, Model, Table } from "sequelize-typescript";
+import { BookingModel } from "src/modules/booking/model/booking.model";
+import { CoachDetailModel } from "src/modules/coach_detail/model/coach_detail.model";
 
 @Table({
     tableName: 'trip',
     underscored: true,
     paranoid: true,
-    timestamps: true
+    timestamps: true,
+    indexes:[{
+        unique: true,
+        fields: ['journey_id'],
+        where: {
+            deleted_at: null
+        }}]
 })
-export class TripModel extends Model<TripModel> {
-    @Column({
-        type: DataType.INTEGER,
-        primaryKey: true,
-        autoIncrement: true
-    })
-    id: number;
-
+export class TripModel extends Model {
     @Column({
         type: DataType.INTEGER,
         field: 'journey_id',
@@ -22,13 +22,8 @@ export class TripModel extends Model<TripModel> {
     })
     journeyId: number;
 
-    @HasMany(()=>TrainModel, {
-        foreignKey: {name:'id', allowNull: false},
-        onDelete: 'CASCADE',
-        onUpdate: 'CASCADE'
-    })
     @Column({
-        type: DataType.NUMBER,
+        type: DataType.INTEGER,
         field: 'train_id',
         allowNull: false
     })
@@ -40,4 +35,20 @@ export class TripModel extends Model<TripModel> {
         defaultValue: ""
     })
     status: string;
+
+    @HasMany(()=>CoachDetailModel, {
+        foreignKey: {name:'tripId', allowNull: false},
+        as:'coachDetail-tripIdAlias',
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
+    })
+    coachDetail: CoachDetailModel; 
+
+    @HasMany(()=>BookingModel, {
+        foreignKey: {name:'tripId', allowNull: false},
+        as:'booking-tripIdAlias',
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
+    })
+    booking: BookingModel;
 }

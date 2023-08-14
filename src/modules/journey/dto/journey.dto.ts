@@ -1,21 +1,12 @@
-import { AutoIncrement, Column, DataType } from "sequelize-typescript";
+import { IsOptional, IsString } from "@nestjs/class-validator";
 import { trainTypeEnum } from "src/enum/enum";
 
-export class JourneyModel {
-    @Column({
-        primaryKey: true,
-        type: DataType.NUMBER
-    })
-    id: number;
-
-    @Column({
-        type: DataType.STRING
-    })
+export class JourneyDTO {
+    @IsString()
+    @IsOptional()
     name: string;
 
-    @Column({
-        type: DataType.STRING,
-        field: 'train_type'
-    })
+    @IsString()
+    @IsOptional()
     trainType: trainTypeEnum;
 }

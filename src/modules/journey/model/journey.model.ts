@@ -1,21 +1,42 @@
-import {Column, DataType, Table } from "sequelize-typescript";
+import {Column, DataType, HasMany, Model, Table } from "sequelize-typescript";
 import { trainTypeEnum } from "src/enum/enum";
+import { JourneyStopModel } from "src/modules/journey_stop/model/journey_stop.model";
+import { TripModel } from "src/modules/trip/model/trip.model";
 
-@Table({tableName: 'journey'})
-export class JouneyModel {
+@Table({
+    tableName: 'journey',
+    underscored: true,
+    paranoid: true,
+    timestamps: true
+})
+export class JourneyModel extends Model<JourneyModel> {
     @Column({
-        primaryKey: true,
-        type: DataType.NUMBER
-    })
-    id: number;
-
-    @Column({
-        type: DataType.STRING
+        type: DataType.STRING,
+        allowNull: false,
+        unique: true
     })
     name: string;
 
     @Column({
-        type: DataType.STRING
+        type: DataType.STRING,
+        field: 'train_type',
+        allowNull: false
     })
     trainType: trainTypeEnum;
+
+    @HasMany(()=>TripModel, {
+        foreignKey: {name:'journeyId', allowNull: false},
+        as:'trip-journeyIdAlias',
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
+    })
+    trip: TripModel
+
+    @HasMany(()=>JourneyStopModel, {
+        foreignKey: {name:'journeyId', allowNull: false},
+        as:'journeyStop-journeyIdAlias',
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
+    })
+    journeyStop: JourneyStopModel
 }

@@ -5,7 +5,7 @@ export abstract class BaseService <D, S, M, R extends BaseRepositoryInterface<D,
     async create(dto: D): Promise<S> {
         try {
             let model: M = await this.repository.create(dto);
-            let schema: S = this.convertUserModelToSchema(model);
+            let schema: S = this.convertModelToSchema(model);
             return schema;
         } catch(e) {
             throw new Error(e.toString());
@@ -15,7 +15,7 @@ export abstract class BaseService <D, S, M, R extends BaseRepositoryInterface<D,
     async findById(id: number): Promise<S> {
         try {
             let model : M = await this.repository.findById(id);
-            let schema : S = this.convertUserModelToSchema(model);
+            let schema : S = this.convertModelToSchema(model);
             return schema;
         } catch(e) {
             throw new Error(e.toString());
@@ -25,7 +25,7 @@ export abstract class BaseService <D, S, M, R extends BaseRepositoryInterface<D,
     async findAll(): Promise<S[]> {
         try {
             let modelArr: M[] = await this.repository.findAll();
-            let schemaArr: S[] = modelArr.map((model)=>this.convertUserModelToSchema(model));
+            let schemaArr: S[] = modelArr.map((model)=>this.convertModelToSchema(model));
             return schemaArr;
         } catch (e) {
             throw new Error(e.toString());
@@ -35,7 +35,7 @@ export abstract class BaseService <D, S, M, R extends BaseRepositoryInterface<D,
     async update(id: number, dto: D): Promise<S> {
         try {
             let model : M = await this.repository.update(id, dto);
-            let schema : S = this.convertUserModelToSchema(model);
+            let schema : S = this.convertModelToSchema(model);
             return schema;
         } catch (e) {
             throw new Error(e.toString());
@@ -45,7 +45,7 @@ export abstract class BaseService <D, S, M, R extends BaseRepositoryInterface<D,
     async partialUpdate(id: number, dto: D): Promise<S> {
         try {
             let model : M = await this.repository.partialUpdate(id, dto);
-            let schema : S = this.convertUserModelToSchema(model);
+            let schema : S = this.convertModelToSchema(model);
             return schema;
         } catch (e) {
             throw new Error(e.toString());
@@ -60,5 +60,5 @@ export abstract class BaseService <D, S, M, R extends BaseRepositoryInterface<D,
         }
     }
     
-    abstract convertUserModelToSchema(model: M): S;
+    abstract convertModelToSchema(model: M): S;
 }

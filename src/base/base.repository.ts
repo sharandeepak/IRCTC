@@ -1,11 +1,11 @@
-import { Model } from "sequelize";
+import { Model, Sequelize } from "sequelize";
 
 export class BaseRepository<D, M extends Model> {
-    constructor(private readonly database, private readonly modelName) {
+    constructor(protected readonly database, protected readonly modelName) {
     }
 
     async create(dto: D): Promise<M> {
-        try {
+        try {   
             let model = await this.database[this.modelName].create(dto);
             return model;
         } catch(e) {
@@ -71,7 +71,7 @@ export class BaseRepository<D, M extends Model> {
             let user = await this.findById(id);
             if(user) {
                 user.destroy();
-                console.log("User Deleted Successfully");
+                console.log("Deleted Successfully");
             } else {
                 throw new Error("User Doesn't Exist");
             }

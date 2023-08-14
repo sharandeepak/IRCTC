@@ -2,6 +2,6 @@ import { IsNotEmpty, IsNumber, IsOptional, IsString } from "@nestjs/class-valida
 
 export class TrainDTO {
     @IsString()
-    @IsNotEmpty()
+    @IsOptional()
     name: string;
 }

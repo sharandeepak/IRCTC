@@ -1,4 +1,5 @@
-import { Column, DataType, Model, Table } from "sequelize-typescript";
+import { Column, DataType, HasMany, Model, Table } from "sequelize-typescript";
+import { TripModel } from "src/modules/trip/model/trip.model";
 
 @Table({
     tableName: 'train',
@@ -8,15 +9,18 @@ import { Column, DataType, Model, Table } from "sequelize-typescript";
 })
 export class TrainModel extends Model {
     @Column({
-        type: DataType.INTEGER,
-        primaryKey: true,
-        autoIncrement: true
-    })
-    id: number;
-
-    @Column({
         type: DataType.STRING,
-        allowNull: false
+        allowNull: false,
+        unique: true
     })
     name: string;
+
+    @HasMany(()=>TripModel, {
+        foreignKey: {name:'trainId', allowNull: false},
+        as:'trip-trainIdAlias',
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
+    })
+    trip: TripModel
+    
 }

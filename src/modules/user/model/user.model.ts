@@ -1,20 +1,22 @@
-import { Column, DataType, Model, Table } from "sequelize-typescript";
+import { Column, DataType, HasMany, Model, Table } from "sequelize-typescript";
+import { BookingModel } from "src/modules/booking/model/booking.model";
 
 @Table({
     tableName: 'user',
     underscored: true,
     paranoid: true,
     timestamps: true,
-    indexes: [{fields: ['id','is_admin'], unique: true, where:{deleted_at: null}}]
+    indexes: [
+        {
+            fields: ['id','is_admin'], 
+            unique: true, 
+            where: {
+                deleted_at: null
+            }
+        }
+    ]
 })
 export class UserModel extends Model<UserModel> {
-    @Column({
-        type: DataType.INTEGER,
-        primaryKey: true,
-        autoIncrement: true
-    })
-    id: number;
-
     @Column({
         type: DataType.STRING,
         field: 'full_name',
@@ -50,4 +52,12 @@ export class UserModel extends Model<UserModel> {
         field: 'is_admin'
     })
     isAdmin: boolean;
+
+    @HasMany(()=>BookingModel, {
+        foreignKey: {name:'userId', allowNull: false},
+        as:'bookingModel-userIdAlias',
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
+    })
+    bookingModel: BookingModel
 }

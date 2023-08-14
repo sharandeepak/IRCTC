@@ -7,8 +7,11 @@ export class UserSchema {
     password: string;
     mobile: string;
     isAdmin: boolean;
+    @Exclude()
     createdAt: Date;
     @Exclude()
     updatedAt: Date;
+    @Exclude()
+    deletedAt: Date;
 }
   

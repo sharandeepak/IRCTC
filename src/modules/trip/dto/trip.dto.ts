@@ -1,17 +1,16 @@
-import { IsNotEmpty, IsNumber, IsOptional, IsString } from "@nestjs/class-validator";
-import { HasMany } from "sequelize-typescript";
+import { IsNumber, IsOptional, IsString } from "@nestjs/class-validator";
 import { trainTripStatusEnum } from "src/enum/enum";
 
 export class TripDTO {
     @IsNumber()
-    @IsNotEmpty()
+    @IsOptional()
     jouneyId: number;
 
     @IsNumber()
-    @IsNotEmpty()
+    @IsOptional()
     trainId: number;
 
     @IsString()
-    @IsNotEmpty()
+    @IsOptional()
     status: trainTripStatusEnum;
 }

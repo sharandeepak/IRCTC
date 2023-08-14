@@ -6,9 +6,8 @@ import { databaseConfig } from 'src/core/database/database.config';
 import { DatabaseModule } from 'src/core/database/database.module';
 
 @Module({
-  providers: [UsersService, UserRepository],
   controllers: [UserController],
-  exports: [UsersService],
+  providers: [UsersService, UserRepository],
   imports: [DatabaseModule]
 })
 export class UsersModule {}
