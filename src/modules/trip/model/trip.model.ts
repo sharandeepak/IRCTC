@@ -1,18 +1,22 @@
-import { Column, DataType, HasMany, Model, Table } from "sequelize-typescript";
+import { BelongsTo, Column, DataType, HasMany, Model, Table } from "sequelize-typescript";
 import { BookingModel } from "src/modules/booking/model/booking.model";
 import { CoachDetailModel } from "src/modules/coach_detail/model/coach_detail.model";
+import { JourneyModel } from "src/modules/journey/model/journey.model";
 
 @Table({
     tableName: 'trip',
     underscored: true,
     paranoid: true,
     timestamps: true,
-    indexes:[{
-        unique: true,
-        fields: ['journey_id'],
-        where: {
-            deleted_at: null
-        }}]
+    indexes: [
+        {
+            unique: true,
+            fields: ['journey_id'],
+            where: {
+                deleted_at: null
+            }
+        }
+    ]
 })
 export class TripModel extends Model {
     @Column({
@@ -32,23 +36,31 @@ export class TripModel extends Model {
     @Column({
         type: DataType.STRING,
         allowNull: false,
-        defaultValue: ""
+        defaultValue: ''
     })
     status: string;
 
-    @HasMany(()=>CoachDetailModel, {
-        foreignKey: {name:'tripId', allowNull: false},
-        as:'coachDetail-tripIdAlias',
+    @HasMany(() => CoachDetailModel, {
+        foreignKey: { name: 'tripId', allowNull: false },
+        as: 'coachDetail-tripIdAlias',
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE'
     })
-    coachDetail: CoachDetailModel; 
+    coachDetail: CoachDetailModel;
 
-    @HasMany(()=>BookingModel, {
-        foreignKey: {name:'tripId', allowNull: false},
-        as:'booking-tripIdAlias',
+    @HasMany(() => BookingModel, {
+        foreignKey: { name: 'tripId', allowNull: false },
+        as: 'booking-tripIdAlias',
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE'
     })
     booking: BookingModel;
+
+    @BelongsTo(() => JourneyModel, {
+        foreignKey: { name: 'journeyId', allowNull: false },
+        as: 'journey',
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
+    })
+    journey: JourneyModel;
 }

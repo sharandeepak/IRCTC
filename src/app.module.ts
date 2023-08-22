@@ -11,23 +11,34 @@ import { JourneyModule } from './modules/journey/journey.module';
 import { JourneyStopModule } from './modules/journey_stop/journey_stop.module';
 import { PaymentModule } from './modules/payment/payment.module';
 import { CacheModule } from './core/cache/cache.module';
+import { AppService } from './app.service';
+import { MessageQueueModule } from './core/message_queue/message_queue.module';
+import { SearchModule } from './core/elasticsearch/search.module';
+import { EventEmitterModule } from '@nestjs/event-emitter';
+import { EventEmitterModule2 } from './core/event_emitter/event_emitter.module';
+import { NotificationModule } from './modules/notification/notification.module';
 
 @Module({
-  controllers: [],
-  providers: [],
-  imports: [
-    ConfigModule.forRoot({ isGlobal: true }),
-    DatabaseModule,
-    UsersModule,
-    TrainModule,
-    StationModule,
-    BookingsModule,
-    TripModule,
-    CoachDetailModule,
-    JourneyModule,
-    JourneyStopModule,
-    PaymentModule,
-    CacheModule
-  ],
+    controllers: [],
+    providers: [AppService],
+    imports: [
+        ConfigModule.forRoot({ isGlobal: true }),
+        EventEmitterModule.forRoot(),
+        DatabaseModule,
+        UsersModule,
+        TrainModule,
+        StationModule,
+        BookingsModule,
+        TripModule,
+        CoachDetailModule,
+        JourneyModule,
+        JourneyStopModule,
+        PaymentModule,
+        CacheModule,
+        MessageQueueModule,
+        SearchModule,
+        NotificationModule,
+        EventEmitterModule2
+    ]
 })
 export class AppModule {}

@@ -33,7 +33,6 @@ export class CoachDetailModel extends Model {
         type: DataType.INTEGER,
         field: 'trip_id', 
         allowNull: false,
-        unique: true
     })
     tripId: number;
 

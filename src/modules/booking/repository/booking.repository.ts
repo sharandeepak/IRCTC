@@ -6,7 +6,7 @@ import { SEQUELIZE } from "src/core/constants"
 
 @Injectable()
 export class BookingRepository extends BaseRepository<BookingDTO, BookingModel> {
-    constructor(@Inject(SEQUELIZE) database){
+    constructor(@Inject(SEQUELIZE) database) {
         super(database, 'BookingModel');
-    }  
+    }
 }

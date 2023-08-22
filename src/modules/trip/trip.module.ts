@@ -7,7 +7,8 @@ import { DatabaseModule } from 'src/core/database/database.module';
 @Module({
     controllers: [TripController],
     providers: [TripService, TripRepository],
-    imports: [DatabaseModule]
+    imports: [DatabaseModule],
+    exports: [TripService]
 })
 export class TripModule {
 }

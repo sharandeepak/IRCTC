@@ -35,7 +35,14 @@ export class BookingModel extends Model {
         allowNull: false
     })
     toStopId: number;
-    
+
+    @Column({
+        type: DataType.STRING,
+        field: 'coach_type',
+        allowNull: false
+    })
+    coachType: string;
+
     @Column({
         type: DataType.INTEGER,
         field: 'no_of_tickets',

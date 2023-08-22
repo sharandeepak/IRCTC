@@ -1,4 +1,4 @@
-import { IsNumber, IsOptional } from "@nestjs/class-validator";
+import { IsNumber, IsOptional, IsString } from "@nestjs/class-validator";
 import { bookingStatusEnum, bookingType } from "src/enum/enum";
 
 export class BookingDTO {
@@ -17,6 +17,10 @@ export class BookingDTO {
     @IsNumber()
     @IsOptional()
     toStationId: number;
+
+    @IsString()
+    @IsOptional()
+    coachType: string;
 
     @IsNumber()
     @IsOptional()

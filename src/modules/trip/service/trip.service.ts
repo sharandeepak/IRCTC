@@ -5,6 +5,7 @@ import { TripModel } from '../model/trip.model';
 import { TripRepository } from '../repository/trip.repository';
 import { BaseService } from 'src/base/base.service';
 import { plainToInstance } from 'class-transformer';
+import { BookingDTO } from 'src/modules/booking/dto/booking.dto';
 
 @Injectable()
 export class TripService extends BaseService<TripDTO, TripSchema, TripModel, TripRepository> {
@@ -17,4 +18,9 @@ export class TripService extends BaseService<TripDTO, TripSchema, TripModel, Tri
         let tripSchema : TripSchema = plainToInstance(TripSchema, tripModel.toJSON());
         return tripSchema;
     }
+
+    // async findAvailableTrips(bookingDTO: BookingDTO): Promise<number []> {
+    //     const availableTrips: number[] = await this.tripRepository.findAvailableTrips(bookingDTO);
+    //     return availableTrips;
+    // }
 }

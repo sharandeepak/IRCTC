@@ -1,7 +1,6 @@
 import { Inject, Injectable } from "@nestjs/common";
 import { UserModel } from "../model/user.model";
 import { UserDTO } from "../dto/user.dto";
-import { UserNotFoundError } from "src/custom_error/custom_error";
 import { SEQUELIZE } from "src/core/constants";
 import { BaseRepository } from "src/base/base.repository";
 import { BaseRepositoryInterface } from "src/base/base.repository.interface";
@@ -25,12 +24,9 @@ export class UserRepository extends BaseRepository<UserDTO, UserModel> {
                     }
                 }
             );
-            if(!isValidCredential) {
-                throw new UserNotFoundError('Please Enter Valid Credentials');
-            }
             return isValidCredential;
         } catch (error) {
-            throw new UserNotFoundError('Please Enter Valid Credentials');
+            throw new Error('Please Enter Valid Credentials');
         }
     }
 
@@ -41,7 +37,7 @@ export class UserRepository extends BaseRepository<UserDTO, UserModel> {
                 let isAdmin = user.isAdmin;
                 return isAdmin;
             } else {
-                throw new UserNotFoundError("User not found !!");
+                throw new Error("User not found !!");
             }
         }
         catch(e) {

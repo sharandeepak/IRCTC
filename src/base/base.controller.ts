@@ -32,6 +32,7 @@ export class BaseController<DTO, SCHEMA, SERVICE extends BaseServiceInterface<DT
             return schema;
         } catch (error) {
             console.error('An error occurred:', error);
+            throw new Error(error.toString());
         }
     }
 
@@ -53,6 +54,7 @@ export class BaseController<DTO, SCHEMA, SERVICE extends BaseServiceInterface<DT
             return schema;
         } catch(error) {
             console.error('An error occurred:', error);
+            throw new Error(error.toString());
         }
     }
 

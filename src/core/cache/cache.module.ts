@@ -1,5 +1,7 @@
 import { RedisModule } from '@nestjs-modules/ioredis';
 import { Module } from '@nestjs/common';
+import { CacheService } from './cache.service';
+import { CacheRepository } from './cache.repo';
 
 @Module({
     imports: [
@@ -10,6 +12,8 @@ import { Module } from '@nestjs/common';
                 }
             })
         })
-    ]
+    ],
+    providers: [CacheService, CacheRepository],
+    exports: [CacheService]
 })
 export class CacheModule {}

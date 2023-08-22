@@ -33,7 +33,8 @@ export const enum bookingType {
     OFFLINE = 'OFFLINE'
 }
 
-export enum bookingStatusEnum {
-    BOOKED = 'BOOKED',
-    CANCELLED = 'CANCELLED'
-}
+    export enum bookingStatusEnum {
+        WAITING_LIST = 'WAITING_LIST',
+        BOOKED = 'BOOKED',
+        CANCELLED = 'CANCELLED'
+    }

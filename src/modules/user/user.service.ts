@@ -1,27 +1,34 @@
-import { Injectable, Query } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { UserModel } from './model/user.model';
 import { UserDTO } from './dto/user.dto';
 import { UserRepository } from './repository/user.repository';
 import { UserSchema } from './schema/user.schema';
 import { plainToInstance } from 'class-transformer';
 import { BaseService } from 'src/base/base.service';
-import { InjectRedis, Redis } from '@nestjs-modules/ioredis';
+import { CacheService } from 'src/core/cache/cache.service';
+import { EventEmitterService } from 'src/core/event_emitter/event_emitter.service';
 
 @Injectable()
 export class UsersService extends BaseService<UserDTO, UserSchema, UserModel, UserRepository> {
-    constructor(private userRepository: UserRepository, @InjectRedis() private readonly redis: Redis) {
+    constructor(private userRepository: UserRepository, private cacheService: CacheService, private readonly eventEmitterService: EventEmitterService) {
         super(userRepository);
     };
 
-    TIME_INTERVAL: number = 15;
+    TIME_INTERVAL: number = 5;
 
     async isValidToLogin(userName: string): Promise<boolean> {
         try {
-            let loginCount: number = await this.redis.incr(userName+'-login_attempt');
-            await this.redis.expire(userName + '-login_attempt', this.TIME_INTERVAL, "NX");
-            if (loginCount > 5) {
-                throw new Error("Max Login attempt reached try after "+ this.TIME_INTERVAL.toString() + "Sec");
-            } return true;
+            const attemptCount: string = await this.cacheService.get(userName + '-login_attempt');
+            if(!attemptCount) {
+                await this.cacheService.setWithExpiry(userName + '-login_attempt', '5', this.TIME_INTERVAL);
+            } else {
+                const count = Number(attemptCount);
+                if(count < 0) {
+                    this.eventEmitterService.userBlocked(userName);
+                    throw false;
+                }
+            }
+            return true;
         } catch (error) {
             console.error('An error occurred:', error);
         }
@@ -31,8 +38,17 @@ export class UsersService extends BaseService<UserDTO, UserSchema, UserModel, Us
         try {
             const isValid: boolean = await this.isValidToLogin(userName);
             if (isValid) {
-                const isSuccess = this.userRepository.login(userName, pwd);
+                const isSuccess: number = await this.userRepository.login(userName, pwd);
+                await this.cacheService.decr(userName+'-login_attempt');
+                // console.error('showing attempt count');
+                // console.error(
+                //     await this.cacheService.get(userName + '-login_attempt')
+                // );
                 return isSuccess;
+            } else {
+                throw new Error(
+                    'Max Login attempt reached try after ' + this.TIME_INTERVAL.toString() + 'Sec'
+                );
             }
         } catch (error) {
             throw new Error(error.toString());

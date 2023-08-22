@@ -10,6 +10,12 @@ export class TrainController extends BaseController<TrainDTO, TrainSchema, Train
         super(trainService);
     }
 
+    @Get('search/:name')
+    async findByName(@Param("name") name: string) {
+        let trainSchema = await this.trainService.searchByName(name);
+        return trainSchema;
+    }
+
     // @Post()
     // async createTrain(@Body() trainDTO: TrainDTO): Promise<TrainSchema> {
     //     let trainSchema: TrainSchema = await this.trainService.create(trainDTO);

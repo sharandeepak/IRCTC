@@ -30,7 +30,8 @@ export const databaseProviders = [{
       }
       const sequelize = new Sequelize(config);
       sequelize.addModels([UserModel, TrainModel, PaymentModel, StationModel, JourneyModel, TripModel, CoachDetailModel, JourneyStopModel, BookingModel]);
-      await sequelize.sync({});
+      await sequelize.sync({
+      });
       return sequelize.models;
    },
     get useFactory() {

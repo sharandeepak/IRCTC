@@ -24,19 +24,19 @@ export class JourneyModel extends Model<JourneyModel> {
     })
     trainType: trainTypeEnum;
 
-    @HasMany(()=>TripModel, {
-        foreignKey: {name:'journeyId', allowNull: false},
-        as:'trip-journeyIdAlias',
+    @HasMany(() => TripModel, {
+        foreignKey: { name: 'journeyId', allowNull: false },
+        as: 'trip-journeyIdAlias',
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE'
     })
-    trip: TripModel
+    trip: TripModel;
 
-    @HasMany(()=>JourneyStopModel, {
-        foreignKey: {name:'journeyId', allowNull: false},
-        as:'journeyStop-journeyIdAlias',
+    @HasMany(() => JourneyStopModel, {
+        foreignKey: { name: 'journeyId', allowNull: false },
+        as: 'journeyStop-journeyIdAlias',
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE'
     })
-    journeyStop: JourneyStopModel
+    journeyStop: JourneyStopModel;
 }
