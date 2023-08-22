@@ -6,6 +6,10 @@ export class EventEmitterService {
     constructor(private readonly eventEmitter: EventEmitter2) {}
 
     userBlocked(userName: string) {
-        this.eventEmitter.emit('user.blocked', userName);
+        try {
+            this.eventEmitter.emit('user.blocked', userName);
+        } catch (error) {
+            throw new Error(error.toString());
+        }
     }
 }

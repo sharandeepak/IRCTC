@@ -13,11 +13,19 @@ export class BullMqService {
     }
 
     async addJob(data: any): Promise<Job> {
-        const job: Job = await this.queue.add("my-queue", data);
-        return job;
+        try {
+            const job: Job = await this.queue.add("my-queue", data);
+            return job;
+        } catch (error) {
+            throw new Error(error.toString());
+        }
     }
 
     private async processJob(job: Job): Promise<void> {
-        console.log('Processing job:', job.data);
+        try {
+            console.log('Processing job:', job.data);
+        } catch (error) {
+            throw new Error(error.toString());
+        }
     }
 }
