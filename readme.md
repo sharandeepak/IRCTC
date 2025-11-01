@@ -1,4 +1,4 @@
-# 🚆 IRCTC — Railway Ticket Reservation System
+# 🚆 Railway Ticket Reservation System
 
 A production-style NestJS + TypeScript backend for railway ticket booking. Integrates:
 
